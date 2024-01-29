@@ -14,6 +14,6 @@
 
 ## Datasets and Pre-trained Recognizers
 
-- Download the TII-HT and TII-ST datasets from: *[Baidu Yun](https://pan.baidu.com/s/1ENLY0pn3amnlOvi4GzNdzg)*,passwd:h5i0.
+- Download the TII-HT and TII-ST datasets from: [Baidu Cloud](https://pan.baidu.com/s/1ENLY0pn3amnlOvi4GzNdzg), Passwd: h5i0.
 
 
