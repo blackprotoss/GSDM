@@ -36,7 +36,7 @@ This repository offers the official Pytorch code for this paper. If you have any
 * save_sp: Whether to save structure prediction images.
 
 
-### Datasets and Pre-trained Checkpoints
+## Datasets and Pre-trained Checkpoints
 
 - Download the TII-HT and TII-ST datasets from: [Baidu Cloud](https://pan.baidu.com/s/1ENLY0pn3amnlOvi4GzNdzg), Passwd: h5i0
 - Download the Checkpoints from: [Baidu Cloud](https://pan.baidu.com/s/1MiyY50A2dGy0wyndYonHUA ), Passwd: dlr6
