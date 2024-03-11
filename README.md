@@ -5,14 +5,13 @@
 
 *[Shipeng Zhu](http://palm.seu.edu.cn/homepage/zhushipeng/demo/index.html), [Pengfei Fang](https://fpfcjdsg.github.io/), Chenjie Zhu, [Zuoyan Zhao](http://palm.seu.edu.cn/homepage/zhaozuoyan/index.html), Qiang Xu, [Hui Xue](http://palm.seu.edu.cn/hxue/)*
 
+This repository offers the official Pytorch code for this paper. If you have any questions, feel free to contact Shipeng Zhu (shipengzhu@seu.edu.cn) or Chenjie Zhu (chenjiezhu@seu.edu.cn).
 
-### Prerequisites 
+## Prerequisites 
 
-* Python 3.10
-* Pytorch 1.13.1
-* CUDA 11.6
+![python](https://img.shields.io/badge/Python-v3.10-green.svg?style=plastic)  ![pytorch](https://img.shields.io/badge/Pytorch-v1.13.1-green.svg?style=plastic)  ![cuda](https://img.shields.io/badge/Cuda-v11.6-green.svg?style=plastic) 
 
-### Environment Setup
+## Environment Setup
 
 * Clone this repo
 
@@ -28,7 +27,7 @@
 
 * Download the pre-trained checkpoints
 
-### Inference phase
+## Inference phase
 
 * config: The path loading yaml file.
 * ckpt_dir: The model checkpoints saving directory.
@@ -37,8 +36,8 @@
 * save_sp: Whether to save structure prediction images.
 
 
-### Datasets and Pre-trained Recognizers
+### Datasets and Pre-trained Checkpoints
 
-- Download the TII-HT and TII-ST datasets from: [Baidu Cloud](https://pan.baidu.com/s/1ENLY0pn3amnlOvi4GzNdzg), Passwd: h5i0.
-
+- Download the TII-HT and TII-ST datasets from: [Baidu Cloud](https://pan.baidu.com/s/1ENLY0pn3amnlOvi4GzNdzg), Passwd: h5i0
+- Download the Checkpoints from: [Baidu Cloud](https://pan.baidu.com/s/1MiyY50A2dGy0wyndYonHUA ), Passwd: dlr6
 
