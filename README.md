@@ -6,12 +6,11 @@
 *[Shipeng Zhu](http://palm.seu.edu.cn/homepage/zhushipeng/demo/index.html), [Pengfei Fang](https://fpfcjdsg.github.io/), Chenjie Zhu, [Zuoyan Zhao](http://palm.seu.edu.cn/homepage/zhaozuoyan/index.html), Qiang Xu, [Hui Xue](http://palm.seu.edu.cn/hxue/)*
 
 This repository offers the official Pytorch code for this paper. If you have any questions, feel free to contact Shipeng Zhu (shipengzhu@seu.edu.cn) or Chenjie Zhu (chenjiezhu@seu.edu.cn).
-
-## Prerequisites 
-
-![python](https://img.shields.io/badge/Python-v3.10-green.svg?style=plastic)  ![pytorch](https://img.shields.io/badge/Pytorch-v1.13.1-green.svg?style=plastic)  ![cuda](https://img.shields.io/badge/Cuda-v11.6-green.svg?style=plastic) 
+ 
 
 ## Environment Setup
+
+![python](https://img.shields.io/badge/Python-v3.10-green.svg?style=plastic)  ![pytorch](https://img.shields.io/badge/Pytorch-v1.13.1-green.svg?style=plastic)  ![cuda](https://img.shields.io/badge/Cuda-v11.6-green.svg?style=plastic)
 
 * Clone this repo
 
