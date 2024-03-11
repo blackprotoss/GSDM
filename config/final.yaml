@@ -1,0 +1,67 @@
+name: GSDM
+distributed: false
+val_dataset:
+  input_dir: null
+  output_dir: null
+  resolution: [64, 256]
+gpu_ids:
+- 0
+RM:
+  model:
+    beta_schedule:  # use munual beta_schedule for acceleration
+      train:
+        linear_end: 0.01
+        linear_start: 1.0e-06
+        n_timestep: 2000
+        schedule: linear
+      val:
+        linear_end: 0.01
+        linear_start: 1.0e-06
+        n_timestep: 2000
+        schedule: linear
+    diffusion:
+      channels: 3
+      conditional: true  # unconditional generation or unconditional generation
+      image_size:
+      - 64
+      - 256
+      sampling_timesteps: 1
+    finetune_norm: false
+    unet:
+      attn_res:
+      - 16
+      channel_multiplier:
+      - 1
+      - 2
+      - 4
+      - 8
+      - 8
+      dropout: 0.2
+      in_channel: 9
+      inner_channel: 64
+      out_channel: 3
+      res_blocks: 2
+    which_model_G: sr3  # use the ddpm or sr3 network structure
+  path:
+    log: logs
+    results: results
+    resume_state: null
+    tb_logger: tb_logger
+  phase: val
+  train:
+    ema_scheduler:  # not used now
+      ema_decay: 0.9999
+      step_start_ema: 5000
+      update_ema_every: 1
+    n_iter: 500000
+    optimizer:
+      lr: 0.0001
+      type: adam
+    print_freq: 200
+    save_checkpoint_freq: 10000.0
+    val_freq: 10000.0
+SPM:
+  cum: 32
+  feature_map: false
+  in_channels: 3
+  resume_state: null
