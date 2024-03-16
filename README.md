@@ -43,5 +43,5 @@ This repository offers the official Pytorch code for this paper. If you have any
 
 ## Citation
 
-Formal Citation will be made available soon.
+The formal Citation will be made available soon.
 
