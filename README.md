@@ -41,6 +41,12 @@ This repository offers the official Pytorch code for this paper. If you have any
 - Download the TII-HT and TII-ST datasets from: [Baidu Cloud](https://pan.baidu.com/s/1ENLY0pn3amnlOvi4GzNdzg), Passwd: h5i0 
 - Download the Checkpoints from: [Baidu Cloud](https://pan.baidu.com/s/1MiyY50A2dGy0wyndYonHUA ), Passwd: dlr6; [Google Drive](https://drive.google.com/drive/folders/1ykYNzv-aYltC5I36T6SqvGWwg8no6uhY?usp=sharing).
 
+## Todo List
+- [X] Datasets
+- [X] Inference Code
+- [X] Pre-trained Checkpoints
+- [ ] Training Code
+
 ## Citation
 
 The formal Citation will be made available soon.
