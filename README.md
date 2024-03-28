@@ -5,7 +5,7 @@
 
 *[Shipeng Zhu](http://palm.seu.edu.cn/homepage/zhushipeng/demo/index.html), [Pengfei Fang](https://fpfcjdsg.github.io/), Chenjie Zhu, [Zuoyan Zhao](http://palm.seu.edu.cn/homepage/zhaozuoyan/index.html), Qiang Xu, [Hui Xue](http://palm.seu.edu.cn/hxue/)*
 
-Paper: [(arXiv 2401.14832)](https://arxiv.org/abs/2401.14832) [Conference Version](https://ojs.aaai.org/index.php/AAAI/article/view/28612)
+Paper: [(arXiv 2401.14832)](https://arxiv.org/abs/2401.14832), [AAAI-24 Version](https://ojs.aaai.org/index.php/AAAI/article/view/28612)
 
 This repository offers the official Pytorch code for this paper. If you have any questions, feel free to contact Shipeng Zhu (shipengzhu@seu.edu.cn) or Chenjie Zhu (chenjiezhu@seu.edu.cn).
  
