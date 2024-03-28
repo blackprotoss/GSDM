@@ -5,7 +5,7 @@
 
 *[Shipeng Zhu](http://palm.seu.edu.cn/homepage/zhushipeng/demo/index.html), [Pengfei Fang](https://fpfcjdsg.github.io/), Chenjie Zhu, [Zuoyan Zhao](http://palm.seu.edu.cn/homepage/zhaozuoyan/index.html), Qiang Xu, [Hui Xue](http://palm.seu.edu.cn/hxue/)*
 
-Paper: [(arXiv 2401.14832)](https://arxiv.org/abs/2401.14832)
+Paper: [(arXiv 2401.14832)](https://arxiv.org/abs/2401.14832) [Conference Version](https://ojs.aaai.org/index.php/AAAI/article/view/28612)
 
 This repository offers the official Pytorch code for this paper. If you have any questions, feel free to contact Shipeng Zhu (shipengzhu@seu.edu.cn) or Chenjie Zhu (chenjiezhu@seu.edu.cn).
  
@@ -49,5 +49,15 @@ This repository offers the official Pytorch code for this paper. If you have any
 
 ## Citation
 
-The formal Citation will be made available soon.
+  ```
+@inproceedings{zhu2023gsdm,
+  title={Text image inpainting via global structure-guided diffusion models},
+  author={Zhu, Shipeng and Fang, Pengfei and Zhu, Chenjie and Zhao, Zuoyan and Xu, Qiang and Xue, Hui},
+  booktitle={Proceedings of the AAAI Conference on Artificial Intelligence},
+  volume={38},
+  number={7},
+  pages={7775-7783},
+  year={2024}
+}
+  ```
 
