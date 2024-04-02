@@ -50,7 +50,7 @@ This repository offers the official Pytorch code for this paper. If you have any
 ## Citation
 
   ```
-@inproceedings{zhu2023gsdm,
+@inproceedings{zhu2024gsdm,
   title={Text image inpainting via global structure-guided diffusion models},
   author={Zhu, Shipeng and Fang, Pengfei and Zhu, Chenjie and Zhao, Zuoyan and Xu, Qiang and Xue, Hui},
   booktitle={Proceedings of the AAAI Conference on Artificial Intelligence},
