@@ -58,13 +58,9 @@ python train_rm.py
 ```
 
 * Modify the training configuration in this file ——"config/train_rm.yaml"
-* Note that training RM requires pre-trained SPM checkpoint,  and the path should be modified in the above file.
+* Note that training RM requires a pre-trained SPM checkpoint,  and the path should be modified in the above file.
+* Download the checkpoint of the pre-trained CRNN model into the path: "crnn/data/"
 
-## Todo List
-- [X] Datasets
-- [X] Inference Code
-- [X] Pre-trained Checkpoints
-- [x] Training Code
 
 ## Citation
 
