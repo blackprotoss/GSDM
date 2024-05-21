@@ -4,13 +4,99 @@ import math
 from torchvision import transforms
 import random
 import numpy as np
-from torch.utils.data import Dataset
+from torch.utils.data import Dataset,DataLoader
 from PIL import Image
 from torchvision.utils import make_grid
+import torchvision.transforms.functional as tf
 import cv2
-
+from typing import (
+    Sequence,
+    TypeVar
+)
 IMG_EXTENSIONS = ['jpg', 'JPG', 'jpeg', 'JPEG',
                   'png', 'PNG', 'ppm', 'PPM', 'bmp', 'BMP']
+T_co = TypeVar('T_co', covariant=True)
+
+def smooth(data, sm=10):
+    smooth_data = []
+    for i in range(data.shape[0]):
+        if i == 0:
+            smooth_data.append(data[i])
+        elif i+1 <= sm:
+            smooth_data.append(data[:i].mean())
+        else:
+            smooth_data.append(data[i-sm:i].mean())
+    return smooth_data
+
+class spm_train_dataset(Dataset):
+    def __init__(
+        self,
+        input_dir,
+        gt_dir,
+        data_shape,
+        color_mode="RGB"
+    ):
+        super().__init__()
+        self.color_mode = color_mode
+        self.input_dir = input_dir
+        self.gt_dir = gt_dir
+        self.img_list = self.img_list = [file_name for file_name in os.listdir(self.input_dir) if file_name.split('.')[-1] in IMG_EXTENSIONS]
+        self.resolution = data_shape
+        self.img_trans = transforms.Compose([transforms.Resize(self.resolution),
+                                         transforms.ToTensor()
+                                         ])
+    def __len__(self):
+        return len(self.img_list)
+
+    def __getitem__(self, idx):
+        img_input = Image.open(os.path.join(self.input_dir, self.img_list[idx])).convert(self.color_mode)
+        gt = Image.open(os.path.join(self.gt_dir, self.img_list[idx])).convert('L')
+        return self.img_trans(img_input), self.img_trans(gt)
+
+class Subset(Dataset[T_co]):
+    r"""
+    Subset of a dataset at specified indices.
+
+    Args:
+        dataset (Dataset): The whole Dataset
+        indices (sequence): Indices in the whole set selected for subset
+    """
+    dataset: Dataset[T_co]
+    indices: Sequence[int]
+
+    def __init__(self, dataset: Dataset[T_co], indices: Sequence[int]) -> None:
+        self.dataset = dataset
+        self.indices = indices
+
+    def __getitem__(self, idx):
+        if isinstance(idx, list):
+            return self.dataset[[self.indices[i] for i in idx]]
+        return self.dataset[self.indices[idx]]
+
+    def __len__(self):
+        return len(self.indices)
+
+def _loader_subset(loader: DataLoader, num_images: int, randomize=False) -> DataLoader:
+    my_dataset = loader.dataset
+    lng = len(my_dataset)
+    fixed_indices = range(0, lng - lng % num_images, lng // num_images)
+    if randomize:
+        overlap = True
+        fixed_indices_set = set(fixed_indices)
+        maxatt = 5
+        cnt = 0
+        while overlap and cnt < maxatt:
+            indices = [random.randint(0, lng - 1) for _ in range(0, num_images)]
+            overlap = len(set(indices).intersection(fixed_indices_set)) > 0
+            cnt += 1
+    else:
+        indices = fixed_indices
+    return DataLoader(
+        Subset(my_dataset, indices),
+        batch_size=1,
+        shuffle=False
+    )
+
 
 
 def tensor2img(tensor, out_type=np.uint8, min_max=(-1, 1)):
@@ -74,6 +160,52 @@ class val_dataset(Dataset):
             self.img_name = self.img_list[idx+1]
             img_input = Image.open(os.path.join(self.input_dir, self.img_name)).convert('RGB')
         return {"image": self.img_trans(img_input), "name": self.img_name}
+
+class rm_train_dataset(Dataset):
+    def __init__(
+        self,
+        corrupted_dir,
+        gt_dir,
+        data_shape,
+        train = True
+    ):
+        super().__init__()
+        self.train = train
+        self.corrupted_dir = corrupted_dir
+        self.gt_dir = gt_dir
+        self.img_list = [file_name for file_name in os.listdir(self.corrupted_dir) if file_name.split('.')[-1] in IMG_EXTENSIONS]
+        self.resolution = data_shape
+        self.img_name = ""
+        self.img_trans = transforms.Compose([transforms.Resize(self.resolution),
+                                         transforms.ToTensor(),
+                                         # transforms.Normalize(self.opt.DATASET.MEAN, self.opt.DATASET.STD)
+                                         ])
+
+    def __len__(self):
+        return len(self.img_list)
+
+    def __getitem__(self, idx):
+        # If there is a problem with an image in the data set, read the next one
+        try:
+            self.img_name = self.img_list[idx]
+            img_corrupted = Image.open(os.path.join(self.corrupted_dir, self.img_name)).convert('RGB')
+            img_gt = Image.open(os.path.join(self.gt_dir, self.img_name)).convert('RGB')
+        except:
+            self.img_name = self.img_list[idx+1]
+            img_corrupted = Image.open(os.path.join(self.corrupted_dir, self.img_name)).convert('RGB')
+            img_gt = Image.open(os.path.join(self.gt_dir, self.img_name)).convert('RGB')
+        # scale to [-1,1]
+        img_corrupted = self.img_trans(img_corrupted)*2-1
+        img_gt = self.img_trans(img_gt)*2-1
+        if self.train:
+            if torch.rand(1) < 0.5:
+                img_corrupted = tf.hflip(img_corrupted)
+                img_gt = tf.hflip(img_gt)
+            if torch.rand(1) < 0.5:
+                img_corrupted = tf.vflip(img_corrupted)
+                img_gt = tf.vflip(img_gt)
+
+        return {"corrupted": img_corrupted, "gt": img_gt}
 
 def save_sp(input:torch._tensor, save_dir:str):
     toPIL = transforms.ToPILImage()

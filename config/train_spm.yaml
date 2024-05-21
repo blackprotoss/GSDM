@@ -1,0 +1,22 @@
+name: SPM
+distributed: false
+train_dataset:
+  dataset_name: "ST"
+  corrupted_dir: "D:/dataset/synth80k/test/t_incomplete"
+  gt_dir: "D:/dataset/synth80k/test/mask_t"
+  resolution: [64, 256]
+  batch_size: 32
+  num_workers: 8
+  use_shuffle: true
+log: "logs"
+cum: 32
+epoch: 50
+beta1: 0.9  # default 0.9
+beta2: 0.999  # default 0.999
+spm_learning_rate: 0.0001
+omega_rec: 1
+omega_sem: 2
+print_freq: 200
+n_validation_images: 8
+resume_state: null
+

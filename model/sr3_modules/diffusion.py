@@ -239,7 +239,7 @@ class GaussianDiffusion(nn.Module):
         return (continuous_sqrt_alpha_cumprod * x_start + (1 - continuous_sqrt_alpha_cumprod ** 2).sqrt() * noise)
 
     def p_losses(self, x_in, noise=None):
-        x_start = x_in['HR']#输入是x_start即x_0是HR图像
+        x_start = x_in['gt']#输入是x_start即x_0是HR图像
         [b, c, h, w] = x_start.shape
         t = np.random.randint(1, self.num_timesteps + 1)
         continuous_sqrt_alpha_cumprod = torch.FloatTensor(np.random.uniform(
@@ -257,7 +257,7 @@ class GaussianDiffusion(nn.Module):
         if not self.conditional:
             x_recon = self.denoise_fn(x_noisy, continuous_sqrt_alpha_cumprod)
         else:
-            x_recon = self.denoise_fn(torch.cat([x_in['SR'],x_in['LR'], x_noisy], dim=1),#已经做了三个的concat SR应该为残缺图像 LR为二值图像
+            x_recon = self.denoise_fn(torch.cat([x_in['corrupted'],x_in['structure'], x_noisy], dim=1),#已经做了三个的concat corrupted应该为残缺图像 structure为结构图像
                                       continuous_sqrt_alpha_cumprod)
         loss = self.loss_func(x_start, x_recon)
         return loss

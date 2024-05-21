@@ -114,9 +114,9 @@ class SPM(torch.nn.Module):
 
 # using DDPM as Reconstruction module
 class DDPM(BaseModel):
-    def __init__(self, opt, gpu_ids=[0], distributed=False):
-        opt['gpu_ids'] = gpu_ids
-        opt["distributed"] = distributed
+    def __init__(self, opt):
+        # opt['gpu_ids'] = gpu_ids
+        # opt["distributed"] = distributed
         super(DDPM, self).__init__(opt)
         # define network and load pretrained models
         self.netG = self.set_device(networks.define_G(opt))#通过opt配置输入生成器并放到device上去
@@ -145,11 +145,24 @@ class DDPM(BaseModel):
             self.optG = torch.optim.Adam(#使用Adam优化器
                 optim_params, lr=opt['train']["optimizer"]["lr"])
             self.log_dict = OrderedDict()#用来记录训练日志
-        self.load_network()
         self.print_network()
 
     def feed_data(self, data):
-        self.data = self.set_device(data)    
+        self.data = self.set_device(data)
+
+    def optimize_parameters(self):
+        self.optG.zero_grad()  #
+        l_pix = self.netG(self.data)  # 扩散模型
+        # need to average in multi-gpu
+        b, c, h, w = self.data['gt'].shape  # 优化参数 应该是output(HR)的shape
+        l_pix = l_pix.sum() / int(b * c * h * w)
+        l_pix.backward()  # 反向传播
+        self.optG.step()  # 参数更新
+
+        # set log
+        self.log_dict['l_pix'] = l_pix.item()  # 更新日志
+
+    # 逆扩散过程
     def set_T(self,step):
         self.netG.sampling_timesteps=step
 
@@ -211,11 +224,11 @@ class DDPM(BaseModel):
             'Network G structure: {}, with parameters: {:,d}'.format(net_struc_str, n))
         logger.info(s)
 
-    def save_network(self, epoch, iter_step):
+    def save_network(self, save_dir,epoch, iter_step):
         gen_path = os.path.join(
-            self.opt['path']['checkpoint'], 'I{}_E{}_gen.pth'.format(iter_step, epoch))
+            save_dir, 'I{}_E{}_gen.pth'.format(iter_step, epoch))
         opt_path = os.path.join(
-            self.opt['path']['checkpoint'], 'I{}_E{}_opt.pth'.format(iter_step, epoch))
+            save_dir, 'I{}_E{}_opt.pth'.format(iter_step, epoch))
         # gen
         network = self.netG
         if isinstance(self.netG, nn.DataParallel):
@@ -233,7 +246,7 @@ class DDPM(BaseModel):
         logger.info(
             'Saved model in [{:s}] ...'.format(gen_path))
 
-    def load_network(self):
+    def load_network(self,logger):
         load_path = self.opt['path']['resume_state']
         if load_path is not None:
             logger.info(
@@ -271,7 +284,9 @@ class GSDM(torch.nn.Module):
 
 
         # Configuring RM
-        self.RM = DDPM(opt["RM"], opt["gpu_ids"], opt["distributed"])
+        opt["RM"]["gpu_ids"] = opt["gpu_ids"]
+        opt["RM"]['distributed'] = opt['distributed']
+        self.RM = DDPM(opt["RM"])
         if opt["phase"] == 'val':
             self.RM.set_new_noise_schedule(opt["RM"]['model']['beta_schedule']['val'], schedule_phase='val')
 
@@ -293,10 +308,10 @@ class GSDM(torch.nn.Module):
             self.RM.feed_data(rm_input)
             return {"SPM": sp, "RM":self.RM.test()}
 
-    def load_network(self):
+    def load_network(self, logger):
         # load checkpoint
         self.SPM.load_network(self.opt)
-        self.RM.load_network()
+        self.RM.load_network(logger=logger)
 
 
 
