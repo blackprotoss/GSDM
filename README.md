@@ -38,7 +38,7 @@ python inference.py --config xx --input_dir input --output_dir output --save_sp 
 
 ## Datasets and Pre-trained Checkpoints
 
-- Download the TII-HT and TII-ST datasets from: [Baidu Cloud](https://pan.baidu.com/s/1ENLY0pn3amnlOvi4GzNdzg), Passwd: h5i0 
+- Download the TII-HT and TII-ST datasets from: [Baidu Cloud](https://pan.baidu.com/s/1ENLY0pn3amnlOvi4GzNdzg), Passwd: h5i0; [Google Drive](https://drive.google.com/drive/folders/1eN8Mn1wruhhu98wWJmaQOmYvQfbR0Z20?usp=sharing).
 - Download the Checkpoints from: [Baidu Cloud](https://pan.baidu.com/s/1MiyY50A2dGy0wyndYonHUA ), Passwd: dlr6; [Google Drive](https://drive.google.com/drive/folders/1ykYNzv-aYltC5I36T6SqvGWwg8no6uhY?usp=sharing).
 
 ## Training phase
